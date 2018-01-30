@@ -5,54 +5,57 @@
             <div class="row">
                 <div class="ten wide column">
                     <h1>Select Products</h1>
-                        <table class="ui compact celled definition table">
-                                <thead>
-                                  <tr>
-                                    <th></th>
-                                    <th>Name</th>
-                                    <th>Max Quantity</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr>
-                                    <td class="collapsing">
-                                      <div class="ui fitted slider checkbox">
-                                        <input type="checkbox"> <label></label>
-                                      </div>
-                                    </td>
-                                    <td>Lays</td>
-                                    <td>10</td>
-                                  </tr>
-                                  <tr>
-                                    <td class="collapsing">
-                                      <div class="ui fitted slider checkbox">
-                                        <input type="checkbox"> <label></label>
-                                      </div>
-                                    </td>
-                                    <td>Lays</td>
-                                    <td>10</td>
-                                  </tr>
-                                  <tr>
-                                    <td class="collapsing">
-                                      <div class="ui fitted slider checkbox">
-                                        <input type="checkbox"> <label></label>
-                                      </div>
-                                    </td>
-                                    <td>Lays</td>
-                                    <td>10</td>
-                                  </tr>
-                                </tbody>
-                                <tfoot class="full-width">
-                                  <tr>
-                                    <th></th>
-                                    <th colspan="4">
-                                      <div class="ui right floated small primary labeled icon button">
+                    <table class="ui compact celled definition table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Name</th>
+                                <th>Max Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="collapsing">
+                                    <div class="ui fitted slider checkbox">
+                                        <input name="100000" class='product' type="checkbox">
+                                        <label></label>
+                                    </div>
+                                </td>
+                                <td>Lays</td>
+                                <td>10</td>
+                            </tr>
+                            <tr>
+                                <td class="collapsing">
+                                    <div class="ui fitted slider checkbox">
+                                        <input name="100005" class='product' type="checkbox">
+                                        <label></label>
+                                    </div>
+                                </td>
+                                <td>chocolate</td>
+                                <td>10</td>
+                            </tr>
+                            <tr>
+                                <td class="collapsing">
+                                    <div class="ui fitted slider checkbox">
+                                        <input name="100006" class='product' type="checkbox">
+                                        <label></label>
+                                    </div>
+                                </td>
+                                <td>kurkure</td>
+                                <td>10</td>
+                            </tr>
+                        </tbody>
+                        <tfoot class="full-width">
+                            <tr>
+                                <th></th>
+                                <th colspan="4">
+                                    <div class="ui right floated small primary labeled icon button">
                                         <i class="user icon"></i> Add Products
-                                      </div>
-                                    </th>
-                                  </tr>
-                                </tfoot>
-                              </table>
+                                    </div>
+                                </th>
+                            </tr>
+                        </tfoot>
+                    </table>
                 </div>
             </div>
             <div class="row">
@@ -62,23 +65,8 @@
                             <div id="title">
                                 Autocomplete search
                             </div>
-                            <div id="type-selector" class="pac-controls">
-                                <input type="radio" name="type" id="changetype-all" checked="checked">
-                                <label for="changetype-all">All</label>
 
-                                <input type="radio" name="type" id="changetype-establishment">
-                                <label for="changetype-establishment">Establishments</label>
 
-                                <input type="radio" name="type" id="changetype-address">
-                                <label for="changetype-address">Addresses</label>
-
-                                <input type="radio" name="type" id="changetype-geocode">
-                                <label for="changetype-geocode">Geocodes</label>
-                            </div>
-                            <div id="strict-bounds-selector" class="pac-controls">
-                                <input type="checkbox" id="use-strict-bounds" value="">
-                                <label for="use-strict-bounds">Strict Bounds</label>
-                            </div>
                         </div>
                         <div id="pac-container">
                             <input id="pac-input" type="text" placeholder="Enter a location">
@@ -91,7 +79,9 @@
                         <br>
                         <span id="place-address"></span>
                     </div>
+
                     <script>
+                        var globalLoc;
                         function initMap() {
                             var options = {
                                 zoom: 8,
@@ -118,7 +108,7 @@
                                     position: props.coords,
                                     map: map
                                 });
-
+                                globalLoc = { lat: props.coords.lat(), lng: props.coords.lng() };
                                 if (props.content) {
                                     var infoWindow = new google.maps.InfoWindow({
                                         content: props.content
@@ -194,11 +184,13 @@
                                     map.fitBounds(place.geometry.viewport);
                                 } else {
                                     map.setCenter(place.geometry.location);
+
                                     map.setZoom(17);  // Why 17? Because it looks good.
                                 }
                                 marker.setPosition(place.geometry.location);
+                                globalLoc = { lat: place.geometry.location.lat(), lng: place.geometry.location.lng() }
                                 console.log(place.geometry.location);
-                                
+
                                 marker.setVisible(true);
 
                                 var address = '';
@@ -238,13 +230,138 @@
                         }
 
 
-                        
+
                     </script>
-                    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAKBq81VTTCSIbFdOP-6_5iz7mKaW4pqF8&libraries=places&callback=initMap" async
-                        defer></script>
+                    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAKBq81VTTCSIbFdOP-6_5iz7mKaW4pqF8&libraries=places&callback=initMap"
+                        async defer></script>
+                    <button id="subBtn">add Machine</button>
+
                 </div>
             </div>
         </div>
     </div>
-
     <% include ./partials/footer %>
+
+        <script>
+            var Products = [{
+                "ID": 100000,
+                "Name": "Pringles",
+                "Nutrition Facts": {
+                    "Calories": "1,420",
+                    "Sodium": "2,009 mg",
+                    "Total Fat": "31 g",
+                    "Potassium": "1,175 mg",
+                    "Saturated": "11 g",
+                    "Total Carbs": "191 g",
+                    "Polyunsaturated": "0 g",
+                    "Dietary Fiber": "33 g",
+                    "Monounsaturated": "0 g",
+                    "Sugars": "36 g",
+                    "Trans": "0 g",
+                    "Protein": "96 g",
+                    "Cholesterol": "0 mg",
+                    "Vitamin A": "9%",
+                    "Calcium": "59%",
+                    "Vitamin C": "125%",
+                    "Iron": "5%"
+                },
+                "Maximum Quantity": 20,
+                "Cur Quantity": 10,
+                "Image": "https://www.dollartree.com/assets/product_images_2016/styles/xlarge/198606.jpg",
+                "Price": 100
+            },
+            {
+                "ID": 100005,
+                "Name": "Dairy Milk Chocolate",
+                "Nutrition Facts": {
+                    "Calories": "10",
+                    "Sodium": "45 mg",
+                    "Total Fat": "1 g",
+                    "Potassium": "48 mg",
+                    "Saturated": "0 g",
+                    "Total Carbs": "2 g",
+                    "Polyunsaturated": "0 g",
+                    "Dietary Fiber": "0 g",
+                    "Monounsaturated": "0 g",
+                    "Sugars": "0 g",
+                    "Trans": "0 g",
+                    "Protein": "0 g",
+                    "Cholesterol": "0 mg",
+                    "Vitamin A": "3%",
+                    "Calcium": "8%",
+                    "Vitamin C": "0%",
+                    "Iron": "1%"
+                },
+                "Maximum Quantity": 40,
+                "Cur Quantity": 30,
+                "Image": "https://5.imimg.com/data5/CM/GU/MY-44229728/dairy-milk-chocolate-500x500.jpg",
+                "Price": 50
+            },
+            {
+                "ID": 100006,
+                "Name": "Kurkure Puffcorn",
+                "Nutrition Facts": {
+                    "Calories": "250",
+                    "Sodium": "0 mg",
+                    "Total Fat": "0 g",
+                    "Potassium": "0 mg",
+                    "Saturated": "0 g",
+                    "Total Carbs": "0 g",
+                    "Polyunsaturated": "0 g",
+                    "Dietary Fiber": "0 g",
+                    "Monounsaturated": "0 g",
+                    "Sugars": "0 g",
+                    "Trans": "0 g",
+                    "Protein": "0 g",
+                    "Cholesterol": "0 mg",
+                    "Vitamin A": "0%",
+                    "Calcium": "0%",
+                    "Vitamin C": "0%",
+                    "Iron": "0%"
+                },
+                "Maximum Quantity": 25,
+                "Cur Quantity": 14,
+                "Image": "https://images-na.ssl-images-amazon.com/images/I/81q5sKbW9WL._SX342_.jpg",
+                "Price": 20
+            }
+            ];
+            var button1 = $('#subBtn');
+            button1.click(function () {
+                console.log(globalLoc);
+
+                let checkList = $('.product');
+                console.log(checkList);
+                var postObj = { 'locLat': globalLoc.lat, 'locLong': globalLoc.lng }
+               var products=[];
+                for (var i = 0; i < checkList.length; i++) {
+                    if (checkList[i].checked) {
+                        Products.forEach((x) => {
+                            if (x.ID == checkList[i].name) {
+                        console.log(checkList[i].name);
+                                console.log(x);
+                                
+                                products.push(x);
+                            }
+                        })
+                    }
+                }
+                // checkList.forEach((x,i)=>{
+                //     if(x.checked){
+                //         console.log(x.name);
+
+                //     }
+                // })
+
+                if (globalLoc&&products.length>0) {
+                    console.log('added');
+                    console.log(products);
+                    $.post('/vendor/add-machine',{ 'locLat': globalLoc.lat, 'locLong': globalLoc.lng ,products}, (status) => {
+                        console.log(status);
+                    });
+                }
+                else {
+                    alert('no location selected or no objescts selected');
+                }
+
+            })
+        </script>
