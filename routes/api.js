@@ -6,3 +6,5 @@ router.post('getData',function(req,res){
   
 })
 
+module.exports = router;
+
