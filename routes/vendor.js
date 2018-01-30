@@ -85,9 +85,24 @@ router.post('/add-machine',(req,res)=>{
     })
 })
 
+router.get('/machine/:vendId',(req,res)=>{
+    let vendId=req.params.vendId;
+
+    Machine.find({vendId},(err,machine)=>{
+        res.render('edit-machine',{mach:machine});
+    })
+})
 
 
-
+router.post('/modify-machine',(req,res)=>{
+    let mach = req.body.mach;
+    vendId=mach.vendId;
+    Machine.findOne({vendId},(err,mach1)=>{
+        mach1=mach;
+        mach1.save();
+    });
+    res.send({'message':'updates','machine':mach});
+})
 
 
 router.get('/logout', isLoggedIn, function(req, res){
