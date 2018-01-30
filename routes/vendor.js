@@ -5,27 +5,27 @@ var Vendor = require('../models/vendor');
 
 
 router.get('/', (req, res) => {
-    res.render('landing');
+    res.render('landing', {currentUser: req.user});
 });
 
-router.get('/login', (req, res)=> {
-    res.render('login');
+router.get('/login', protectRoutesFromLoggedInUser, (req, res)=> {
+    res.render('login', {currentUser: req.user});
 });
 
 //handling login
-router.post('/login', passport.authenticate('local',
+router.post('/login', protectRoutesFromLoggedInUser, passport.authenticate('local',
     {
         successRedirect: '/vendor/vendorhome',
         failureRedirect: '/vendor/login'
     }), function(req, res){
 });
 
-router.get('/register', (req, res)=> {
-    res.render('register');
+router.get('/register', protectRoutesFromLoggedInUser, (req, res)=> {
+    res.render('register', {currentUser: req.user});
 });
 
 //handle signup logic
-router.post('/register', function(req, res){
+router.post('/register', protectRoutesFromLoggedInUser, function(req, res){
     var newVendor = new Vendor({username: req.body.username});
     Vendor.register(newVendor, req.body.password, function(err, user){
         if(err){
@@ -35,14 +35,37 @@ router.post('/register', function(req, res){
             passport.authenticate('local')(req, res, function(){
                 req.flash('success', 'Welcome ' + user.username + ' to Vendor Portal' );
                 res.redirect('/vendor/vendorhome');
-                // res.send('success');
             });
         }
     });
 });
 
-router.get('/vendorhome', function(req, res){
-    res.render('vendor-home');
+router.get('/vendorhome', isLoggedIn, function(req, res){
+    res.render('vendor-home', {currentUser: req.user});
 });
+
+router.get('/logout', isLoggedIn, function(req, res){
+    req.logout();
+    req.flash('success', 'Logged you out!');
+    res.redirect('/vendor/login');
+});
+
+function isLoggedIn(req, res, next){
+    if(req.isAuthenticated()){
+        return next();
+    }else{
+        req.flash('error', 'You need to be logged in to do that');
+        res.redirect('/vendor/login');
+    }
+}
+
+function protectRoutesFromLoggedInUser(req, res, next){
+    if(!req.isAuthenticated()){
+        return next();
+    }else{
+        req.flash('error', 'You cannot access the route');
+        res.redirect('back');
+    }
+}
 
 module.exports = router;
