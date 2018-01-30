@@ -9,7 +9,8 @@ const LocalStrategy = require('passport-local');
 const Vendor = require('./models/vendor');
 
 //import routes
-var vendorRoutes = require('./routes/vendor');
+var vending = require('./routes/vending');
+var api = require('./routes/api')
 
 //mongo connect
 mongoose.connect('mongodb://admin:admin@ds217898.mlab.com:17898/vending-machine');
@@ -48,8 +49,9 @@ passport.deserializeUser(Vendor.deserializeUser());
 app.get('/', function(req, res){
     res.render('landing', {currentUser: req.user});
 });
-
-app.use('/vendor', vendorRoutes);
+app.use('/vending',express.static('./publi/vending'))
+app.use('/vending', vending);
+app.use('/api',api);
 
 //app listen
 var port = 3000;
