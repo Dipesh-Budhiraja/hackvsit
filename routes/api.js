@@ -1,3 +1,5 @@
+// import { log } from 'util';
+
 
 
 const express = require('express');
@@ -62,7 +64,26 @@ router.post('/getData', (req, res) => {
     })
 })
 
+router.post('/transaction/:id',(req,res)=>{
+    console.log(req.body);
+    console.log(req.headers);
+    var vendId=req.params.id;
+    req.body=req.headers.json;
+    res.send('123');
+    Machine.findById(vendId,(err,machine)=>{
+        tempProd = machine.products;
 
+        for(var i in tempProd){
+            for(var j in req.body.cart){
+                if(tempProd[i].ID==req.body.cart[j].id){
+                    // tempProd[]
+                    console.log('running')
+                    res.send('123');
+                }
+            }
+        }
+    })
+})
 
 
 router.post('purchaseItems',(req,res)=>{
