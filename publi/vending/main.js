@@ -5,7 +5,7 @@ $(function(){
     function vendId(){
         // console.log('hello');
         
-        $.post('/vending/qr',{machineId:"vend123"},function(data){
+        $.post('/vending/qr',{machineId:"vend124"},function(data){
             let source = 'data:image/png;base64, '
             
             let sourcenew =source+data;

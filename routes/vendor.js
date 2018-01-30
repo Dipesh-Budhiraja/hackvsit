@@ -60,7 +60,6 @@ router.get('/get-machines',isLoggedIn,(req,res)=>{
 });
 
 router.get('/add-machine',(req,res)=>{
-
 })
 
 router.post('/add-machine',(req,res)=>{
@@ -81,6 +80,8 @@ router.post('/add-machine',(req,res)=>{
         }   
     })
 })
+
+
 
 
 
