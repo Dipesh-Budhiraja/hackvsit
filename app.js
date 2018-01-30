@@ -1,3 +1,4 @@
+
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -10,7 +11,10 @@ const Vendor = require('./models/vendor');
 
 //import routes
 var vending = require('./routes/vending');
-var api = require('./routes/api')
+var api = require('./routes/api');
+var PayResponse = require('./routes/response');
+var pgredirect = require('./routes/pgredirect');
+var testtxn = require('./routes/testtxn');
 var vendorRoutes = require('./routes/vendor');
 
 //mongo connect
@@ -54,7 +58,11 @@ app.get('/', function(req, res){
 app.use('/vending',express.static('./publi/vending'))
 app.use('/vending', vending);
 app.use('/api',api);
+// app.use('/payments',payment)
 app.use('/vendor', vendorRoutes);
+app.use('/testtxn',testtxn);
+app.use('/response',PayResponse);
+app.use('/pgredirect',pgredirect);
 
 //app listen
 var port = 3000;
