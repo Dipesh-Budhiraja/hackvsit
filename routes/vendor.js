@@ -18,7 +18,7 @@ router.post('/login', protectRoutesFromLoggedInUser, passport.authenticate('loca
         successRedirect: '/vendor/dashboard',
         failureRedirect: '/vendor/login'
     }), function (req, res) {
-
+        
     });
 
 router.get('/register', protectRoutesFromLoggedInUser, (req, res) => {
