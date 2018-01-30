@@ -4,7 +4,7 @@ const router = express.Router();
 const Machine = require('../models/vending');
 
 
-router.post('getData',function(req,res){
+router.post('/getData',function(req,res){
     let vendId=req.body.machineId;
     res.send({
         vendId:123,
@@ -50,3 +50,5 @@ router.post('getActualVending',(req,res)=>{
         }
     })
 })
+module.exports = router;
+
