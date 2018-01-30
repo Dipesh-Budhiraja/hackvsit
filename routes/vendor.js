@@ -15,7 +15,7 @@ router.get('/login', protectRoutesFromLoggedInUser, (req, res)=> {
 //handling login
 router.post('/login', protectRoutesFromLoggedInUser, passport.authenticate('local',
     {
-        successRedirect: '/vendor/vendorhome',
+        successRedirect: '/vendor/dashboard',
         failureRedirect: '/vendor/login'
     }), function(req, res){
 });
@@ -34,13 +34,13 @@ router.post('/register', protectRoutesFromLoggedInUser, function(req, res){
         }else{
             passport.authenticate('local')(req, res, function(){
                 req.flash('success', 'Welcome ' + user.username + ' to Vendor Portal' );
-                res.redirect('/vendor/vendorhome');
+                res.redirect('/vendor/dashboard');
             });
         }
     });
 });
 
-router.get('/vendorhome', isLoggedIn, function(req, res){
+router.get('/dashboard', isLoggedIn, function(req, res){
     res.render('vendor-home', {currentUser: req.user});
 });
 
@@ -63,8 +63,8 @@ function protectRoutesFromLoggedInUser(req, res, next){
     if(!req.isAuthenticated()){
         return next();
     }else{
-        req.flash('error', 'You cannot access the route');
-        res.redirect('back');
+        req.flash('error', 'You cannot access that route');
+        res.redirect('/vendor');
     }
 }
 

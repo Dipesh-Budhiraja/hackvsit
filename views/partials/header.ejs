@@ -1,59 +1,84 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>Vending Machine</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        <link rel="stylesheet" href="/stylesheets/main.css">
-    </head>
-    <body>
 
-            <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-                    <a class="navbar-brand" href="#">Vendor Portal</a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                      <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                      <div class="navbar-nav">
-                        <a class="nav-item nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
-                        <% if(!currentUser){ %>
-                        <a class="nav-item nav-link" href="/vendor/login">Login</a>
-                        <a class="nav-item nav-link" href="/vendor/register">Register</a>
-                        <% }else{ %>
-                        <a class="nav-item nav-link" href="#">Signed In As <%= currentUser.username %></a>
-                        <a class="nav-item nav-link" href="/vendor/logout">Logout</a>
-                        <% } %>                   
-                      </div>
-                    </div>
-                  </nav>
-        <!-- <nav class="navbar navbar-dark bg-primary">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <a href="/" class="navbar-brand">Vending Machine</a>
-                </div>
-                
-                <div class="collapse navbar-collapse">
-                    <ul class="nav navbar-nav navbar-right">
-                        <% if(!currentUser){ %>
-                            <li><a href="/login">Login</a></li>
-                            <li><a href="/register">Sign Up</a></li>
-                        <% }else{ %>
-                            <li><a href="#">Signed In As <%= currentUser.username %></a></li>
-                            <li><a href="/logout">Logout</a></li>
-                        <% } %>
-                    </ul>
-                </div>
-            </div>
-        </nav> -->
-        <div class="container">
-            <% if(error && error.length > 0){ %>
-                <div class="alert alert-danger" role="alert">
-                    <%= error %>
-                </div>
-            <% } %>
-            <% if(success && success.length > 0){ %>
-                <div class="alert alert-success" role="alert">
-                    <%= success %>
-                </div>
-            <% } %>
+<head>
+    <meta charset="utf-8">
+    <title>Vending Machine</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+
+<body>
+    <nav>
+        <div class="ui visible left demo vertical inverted sidebar labeled icon menu">
+            <% if(!currentUser){ %>
+                <a class="item" href="/">
+                    <i class="home icon"></i>
+                    Home
+                </a>
+                <a class="item" href="/vendor/login">
+                    <i class="home icon"></i>
+                    Login
+                </a>
+                <a class="item" href="/vendor/register">
+                    <i class="home icon"></i>
+                    Register
+                </a>
+                <% }else{ %>
+                    <a class="item">
+                        <img style="margin: 10px auto;" class="ui tiny circular image" src="/images/elliot.jpg"> 
+                        Signed in as <%= currentUser.username %>
+                    </a>
+                    <a class="item" href="/vendor/dashboard">
+                        <i class="home icon"></i>
+                        Dashboard
+                    </a>
+                    <a class="item" href="/vendor/add-machine">
+                        <i class="home icon"></i>
+                        Add Machine
+                    </a>
+                    
+                    <a class="item" href="/vendor/logout">
+                        <i class="smile icon"></i>
+                        Logout
+                    </a>
+                    <% } %>
         </div>
+
+    </nav>
+    <!-- <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="#">Vendor Portal</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link active" href="/">Home
+                    <span class="sr-only">(current)</span>
+                </a>
+                <% if(!currentUser){ %>
+                    <a class="nav-item nav-link" href="/vendor/login">Login</a>
+                    <a class="nav-item nav-link" href="/vendor/register">Register</a>
+                    <% }else{ %>
+                        <a class="nav-item nav-link" href="#">Signed In As
+                            <%= currentUser.username %>
+                        </a>
+                        <a class="nav-item nav-link" href="/vendor/logout">Logout</a>
+                        <% } %>
+            </div>
+        </div>
+    </nav> -->
+
+    <div class="container" style="padding-left:200px;">
+        <% if(error && error.length > 0){ %>
+            <div class="alert alert-danger" role="alert">
+                <%= error %>
+            </div>
+            <% } %>
+                <% if(success && success.length > 0){ %>
+                    <div class="alert alert-success" role="alert">
+                        <%= success %>
+                    </div>
+                    <% } %>
+    </div>
