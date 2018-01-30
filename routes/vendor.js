@@ -85,6 +85,8 @@ router.post('/add-machine',(req,res)=>{
 
 
 
+
+
 router.get('/logout', isLoggedIn, function(req, res){
     req.logout();
     req.flash('success', 'Logged you out!');
