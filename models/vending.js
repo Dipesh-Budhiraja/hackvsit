@@ -10,4 +10,4 @@ var VendingSchema = new mongoose.Schema({
 
 VendingSchema.plugin(passportLocalMongoose);
 
-module.exports = mongoose.model('VendingMachine', VendorSchema);
+module.exports = mongoose.model('VendingMachine', VendingSchema);
