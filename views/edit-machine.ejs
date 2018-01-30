@@ -1,35 +1,56 @@
 <% include ./partials/header %>
 
     <div style="padding: 30px 0 100px 100px;">
-        <h1>edit page</h1>
+        <h1 style="text-align: center; margin-bottom: 40px;">edit page</h1>
         <div class="ui grid centered">
-            <form action="/vendor/edit-machine" method="post">
+            <form action="/vendor/edit/<%= machine._id %>" method="post">
                 <div class="row">
-                    <div class="five wide column">
-                        <div class="ui form">
-                            <div class="field">
-                                <label>Select Products to be Refilled</label>
-                                <select multiple="" class="ui dropdown" name="products">
-                                    <option value="">Select Products</option>
-                                    <option value="lays">Lays</option>
-                                    <option value="kurkure">Kurkure</option>
-                                    <option value="5star">5star</option>
-                                    <option value="pepsi">Pepsi</option>
-                                    <option value="coke">Coke</option>
-                                </select>
-                            </div>
-                        </div>
+                    <div class="ten wide column">
+                        <table class="ui compact celled definition table">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Name</th>
+                                    <th>Current Quantity of Machine</th>
+                                    <th>Maximum Quantity of Machine</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% machine.products.forEach(function(product){ %>
+                                    <tr>
+                                        <td class="collapsing">
+                                            <div class="ui fitted slider checkbox">
+                                                <input type="checkbox" name="<%= product.ID %>">
+                                                <label></label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <%= product.Name %>
+                                        </td>
+                                        <td>
+                                            <%= product["Cur Quantity"] %>
+                                        </td>
+                                        <td>
+                                            <%= product["Maximum Quantity"] %>
+                                        </td>
+                                    </tr>
+                                    <% }) %>
+                            </tbody>
+                            <tfoot class="full-width">
+                                <tr>
+                                    <th></th>
+                                    <th colspan="4">
+                                            <button type="submit" class="ui right floated green labeled icon button">
+                                                    <i class="right checkmark icon"></i>
+                                                    Next
+                                                  </button>
+                                    </th>
+                                </tr>
+                            </tfoot>
+                        </table>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="three wide column">
-                        <div class="ui buttons">
-                            <button class="ui button">Cancel</button>
-                            <div class="or"></div>
-                            <button type="submit" class="ui positive button">Apply Changes</button>
-                        </div>
-                    </div>
-                </div>
+
             </form>
         </div>
     </div>
