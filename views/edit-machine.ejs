@@ -1,0 +1,37 @@
+<% include ./partials/header %>
+
+    <div style="padding: 30px 0 100px 100px;">
+        <h1>edit page</h1>
+        <div class="ui grid centered">
+            <form action="/vendor/edit-machine" method="post">
+                <div class="row">
+                    <div class="five wide column">
+                        <div class="ui form">
+                            <div class="field">
+                                <label>Select Products to be Refilled</label>
+                                <select multiple="" class="ui dropdown" name="products">
+                                    <option value="">Select Products</option>
+                                    <option value="lays">Lays</option>
+                                    <option value="kurkure">Kurkure</option>
+                                    <option value="5star">5star</option>
+                                    <option value="pepsi">Pepsi</option>
+                                    <option value="coke">Coke</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="three wide column">
+                        <div class="ui buttons">
+                            <button class="ui button">Cancel</button>
+                            <div class="or"></div>
+                            <button type="submit" class="ui positive button">Apply Changes</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <% include ./partials/footer %>
