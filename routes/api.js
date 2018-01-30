@@ -64,7 +64,6 @@ router.post('/getActualVending', (req, res) => {
 
 router.post('purchaseItems',(req,res)=>{
     vendId=req.body.machineId;
-
 })
 
 

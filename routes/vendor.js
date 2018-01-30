@@ -45,7 +45,7 @@ router.get('/vendorhome', isLoggedIn, function(req, res){
     res.render('vendor-home', {currentUser: req.user});
 });
 
-router.get('/get-machines',(req,res)=>{
+router.get('/get-machines',isLoggedIn,(req,res)=>{
     Vendor.findById(req.user.id).populate('machines').exec((err,vendor)=>{
                if(err){
                    res.status(200).send(err);
@@ -54,13 +54,13 @@ router.get('/get-machines',(req,res)=>{
                    res.send(vendor.machines);
                }
                else{
-                    res.send('no machines found')
+                   res.send('no machines found')
                }
     })
 });
 
 router.get('/add-machine',(req,res)=>{
-    
+
 })
 
 router.post('/add-machine',(req,res)=>{
@@ -71,8 +71,14 @@ router.post('/add-machine',(req,res)=>{
         else{
             var mach=new Machine();
             mach.vendId="vend"+mach.id;
-            mach.locLat=req.body
-        }
+            mach.locLat=req.body.locLat;
+            mach.locLong = req.body.locLong;
+            mach.products = req.body.products;
+            mach.save();
+            vendor.machines.push(mach);
+            vendor.save();
+            res.send('machine added')
+        }   
     })
 })
 
