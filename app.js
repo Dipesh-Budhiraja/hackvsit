@@ -6,7 +6,8 @@ const methodOverride = require('method-override');
 const flash = require('connect-flash');
 
 //import routes
-var vendor = require('./routes/vendor');
+var vending = require('./routes/vending');
+var api = require('./routes/api')
 
 //mongo connect
 mongoose.connect('mongodb://admin:admin@ds217898.mlab.com:17898/vending-machine');
@@ -25,7 +26,9 @@ app.use(flash());
 app.get('/', function(req, res){
     res.send('home page');
 });
-app.use('/vendor', vendor);
+app.use('/vending',express.static('./publi/vending'))
+app.use('/vending', vending);
+app.use('/api',api);
 
 //app listen
 var port = 3000;
