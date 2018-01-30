@@ -4,9 +4,9 @@ var qr = require('qr-image');
 
 // router.use(express.static('../publi/vending'))
 
-router.get('/', (req, res) => {
-    res.send('../publi/vending-machine.html');
-});
+// router.get('/', (req, res) => {
+//     res.send('../publi/vending-machine.html');
+// });
 
 
 router.post('/qr',(req,res)=>{
