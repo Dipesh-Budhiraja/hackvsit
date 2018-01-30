@@ -12,6 +12,14 @@ router.get('/login', (req, res)=> {
     res.render('login');
 });
 
+//handling login
+router.post('/login', passport.authenticate('local',
+    {
+        successRedirect: '/vendor/vendorhome',
+        failureRedirect: '/vendor/login'
+    }), function(req, res){
+});
+
 router.get('/register', (req, res)=> {
     res.render('register');
 });
@@ -21,8 +29,8 @@ router.post('/register', function(req, res){
     var newVendor = new Vendor({username: req.body.username});
     Vendor.register(newVendor, req.body.password, function(err, user){
         if(err){
-            req.flash('error', err.message);
-            return res.render('register');
+            req.flash('error', 'User Already Exist');
+            return res.redirect('/vendor/register');
         }else{
             passport.authenticate('local')(req, res, function(){
                 req.flash('success', 'Welcome ' + user.username + ' to Vendor Portal' );
