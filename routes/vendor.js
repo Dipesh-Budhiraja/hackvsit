@@ -59,6 +59,10 @@ router.get('/get-machines',(req,res)=>{
     })
 });
 
+router.get('/add-machine',(req,res)=>{
+    
+})
+
 router.post('/add-machine',(req,res)=>{
     Vendor.findById(req.user.id,(err,vendor)=>{
         if(err){
