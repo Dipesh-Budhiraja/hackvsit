@@ -42,22 +42,21 @@ router.post('/register', protectRoutesFromLoggedInUser, function(req, res){
 });
 
 router.get('/dashboard', isLoggedIn, function(req, res){
-    res.render('vendor-home', {currentUser: req.user});
+    Vendor.findById(req.user.id).populate('machines').exec((err,vendor)=>{
+        if(err){
+            res.status(200).send(err);
+        }
+        if(vendor.machines.length!=0){
+            res.render('vendor-home', {currentUser: req.user,machines:vendor.machines});
+            
+            // res.send(vendor.machines);
+        }
+        else{
+            res.send('no machines found')
+        }
+});
 });
 
-router.get('/get-machines',isLoggedIn,(req,res)=>{
-    Vendor.findById(req.user.id).populate('machines').exec((err,vendor)=>{
-               if(err){
-                   res.status(200).send(err);
-               }
-               if(vendor.machines.length!=0){
-                   res.send(vendor.machines);
-               }
-               else{
-                   res.send('no machines found')
-               }
-    })
-});
 
 router.get('/add-machine',(req,res)=>{
     res.render('add-machine');
