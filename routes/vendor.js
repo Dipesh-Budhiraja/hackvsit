@@ -25,15 +25,15 @@ router.post('/register', function(req, res){
             return res.render('register');
         }else{
             passport.authenticate('local')(req, res, function(){
-                req.flash('success', 'Welcome to YelpCamp ' + user.username);
-                // res.redirect('/vendor/vendor-home');
-                res.send('success');
+                req.flash('success', 'Welcome ' + user.username + ' to Vendor Portal' );
+                res.redirect('/vendor/vendorhome');
+                // res.send('success');
             });
         }
     });
 });
 
-router.get('/vendor-home', function(req, res){
+router.get('/vendorhome', function(req, res){
     res.render('vendor-home');
 });
 
