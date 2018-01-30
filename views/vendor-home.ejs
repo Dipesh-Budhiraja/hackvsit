@@ -1,10 +1,14 @@
 <% include ./partials/header %>
-    <div style="padding-left: 200px;">
-        <h1>Dashboard</h1>
+    <div style="padding-left: 200px; margin-top: 50px;">
+        <div class="ui grid">
+                <div class="row centered">
+                        <h1 style="font-family: 'Raleway', sans-serif !important; font-size: 35px; font-weight: 100; letter-spacing: 0.2em;">Dashboard</h1>
+                </div>
+        </div>
 
         <div class="ui grid centered">
             <div class="twelve wide column">
-                <h1>Products</h1>
+                <h1 style="text-align: center; font-family: 'Raleway', sans-serif !important; font-size: 25px; font-weight: 100; letter-spacing: 0.2em;">Products</h1>
                 <div class="ui styled fluid accordion">
                     <% machines.forEach(function(machine){ %>
                     <div class=" title">

@@ -10,6 +10,21 @@
     $('select.dropdown')
         .dropdown()
         ;
+
+    $('.cookie.nag')
+        .nag('show')
+        ;
+
+    $('.cookie.nag')
+        .nag('clear')
+        ;
+
+    $('.cookie.nag')
+        .nag({
+            key: 'accepts-cookies',
+            value: false
+        })
+        ;
 </script>
 </body>
 
