@@ -1,13 +1,29 @@
 <% include partials/header %>
 
-<div style="padding-left: 200px;">
-<h1>Login!</h1>
+    <div style="padding-left: 200px; margin-top: 50px;">
+        <div class="ui grid">
+            <div class="row centered">
+                <h1 style="font-family: 'Raleway', sans-serif !important; font-size: 35px; font-weight: 100; letter-spacing: 0.2em;">Login</h1>
+            </div>
+            <div class="row centered">
+                <div class="five wide column">
+                    <form class="ui form" action="/vendor/login" method="post">
+                        <div class="field">
+                            <label>Username</label>
+                            <input type="text" name="username" placeholder="username">
+                        </div>
+                        <div class="field">
+                            <label>Password</label>
+                            <input type="password" name="password" placeholder="password">
+                        </div>
 
-<form action="/vendor/login" method="post">
-    <input type="text" name="username" placeholder="username">
-    <input type="password" name="password" placeholder="password">
-    <input type="submit" value="Login!">
-</form>
-</div>
+                        <input class="ui button primary" type="submit" value="Login!">
+                    </form>
+                </div>
+            </div>
+        </div>
 
-<% include partials/footer %>
+
+    </div>
+
+    <% include partials/footer %>

@@ -55,14 +55,11 @@ router.get('/dashboard', isLoggedIn, function (req, res) {
     });
 });
 
-
-router.get('/add-machine', (req, res) => {
-    res.render('add-machine');
+router.get('/add-machine', isLoggedIn, (req, res) => {
+    res.render('add-machine', {currentUser: req.user});
 })
 
-
-
-router.post('/add-machine', (req, res) => {
+router.post('/add-machine', isLoggedIn, (req, res) => {
     Vendor.findById(req.user.id, (err, vendor) => {
         if (err) {
             res.status(200).send(err);

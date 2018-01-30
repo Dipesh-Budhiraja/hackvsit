@@ -6,22 +6,23 @@
     <title>Vending Machine</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css">
     <link rel="stylesheet" href="/css/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:300" rel="stylesheet">
 </head>
 
 <body>
     <nav>
-        <div class="ui visible left demo vertical inverted sidebar labeled icon menu">
+        <div class="ui visible left demo vertical inverted sidebar labeled icon menu" style="width: 200px !important;">
             <% if(!currentUser){ %>
                 <a class="item" href="/">
                     <i class="home icon"></i>
                     Home
                 </a>
                 <a class="item" href="/vendor/login">
-                    <i class="home icon"></i>
+                    <i class="sign in icon"></i>
                     Login
                 </a>
                 <a class="item" href="/vendor/register">
-                    <i class="home icon"></i>
+                    <i class="user outline icon"></i>
                     Register
                 </a>
                 <% }else{ %>
@@ -30,16 +31,16 @@
                         Signed in as <%= currentUser.username %>
                     </a>
                     <a class="item" href="/vendor/dashboard">
-                        <i class="home icon"></i>
+                        <i class="tasks icon"></i>
                         Dashboard
                     </a>
                     <a class="item" href="/vendor/add-machine">
-                        <i class="home icon"></i>
+                        <i class="plus square outline icon"></i>
                         Add Machine
                     </a>
-                    
+
                     <a class="item" href="/vendor/logout">
-                        <i class="smile icon"></i>
+                        <i class="power inverted red icon"></i>
                         Logout
                     </a>
                     <% } %>
@@ -71,7 +72,20 @@
     </nav> -->
 
     <div class="container" style="padding-left:200px;">
-        <% if(error && error.length > 0){ %>
+            <div class="ui inline cookie nag" style="padding-top: 0px; padding-bottom: 0px;">
+                    <% if(error && error.length > 0){ %>
+                        <span class="title" style="padding-top: 11px; padding-bottom: 11px;">
+                            <%= error %>
+                        </span>
+                        <% } %>
+                            <% if(success && success.length > 0){ %>
+                                <span class="title" style="padding-top: 11px; padding-bottom: 11px;">
+                                    <%= success %>
+                                </span>
+                                <% } %>
+                    <i class="close icon"></i>
+                  </div>
+        <!-- <% if(error && error.length > 0){ %>
             <div class="alert alert-danger" role="alert">
                 <%= error %>
             </div>
@@ -80,5 +94,5 @@
                     <div class="alert alert-success" role="alert">
                         <%= success %>
                     </div>
-                    <% } %>
+                    <% } %> -->
     </div>
