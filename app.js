@@ -4,9 +4,12 @@ const bodyParser = require('body-parser');
 const ejs = require('ejs');
 const methodOverride = require('method-override');
 const flash = require('connect-flash');
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+const Vendor = require('./models/vendor');
 
 //import routes
-var vendor = require('./routes/vendor');
+var vendorRoutes = require('./routes/vendor');
 
 //mongo connect
 mongoose.connect('mongodb://admin:admin@ds217898.mlab.com:17898/vending-machine');
@@ -21,11 +24,32 @@ app.use(express.static(__dirname + '/public'));
 app.use(methodOverride("_method"));
 app.use(flash());
 
+//passport config
+app.use(require('express-session')({
+    secret: 'vsit hackathon',
+    resave: false,
+    saveUninitialized: false
+}));
+
+app.use(function(req, res, next){
+    res.locals.currentUser = req.user;
+    res.locals.error = req.flash('error');
+    res.locals.success = req.flash('success');
+    next();
+});
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(Vendor.authenticate()));
+passport.serializeUser(Vendor.serializeUser());
+passport.deserializeUser(Vendor.deserializeUser());
+
 //routes
 app.get('/', function(req, res){
-    res.send('home page');
+    res.render('landing', {currentUser: req.user});
 });
-app.use('/vendor', vendor);
+
+app.use('/vendor', vendorRoutes);
 
 //app listen
 var port = 3000;
