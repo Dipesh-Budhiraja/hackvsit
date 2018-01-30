@@ -70,10 +70,15 @@ router.post('/add-machine', isLoggedIn, (req, res) => {
             mach.locLat = req.body.locLat;
             mach.locLong = req.body.locLong;
             mach.products = req.body.products;
-            mach.save();
+            console.log(mach);
             vendor.machines.push(mach);
-            vendor.save();
-            res.send('machine added')
+            mach.save(function () {
+                console.log(vendor);
+                
+                vendor.save(function () {
+                    res.send('machine added')
+                });
+            });
         }
     })
 })
@@ -89,61 +94,75 @@ router.get('/edit/:vendId', (req, res) => {
 })
 
 
-router.post('/edit/:vendId', (req, res) => {
+// router.post('/edit/:vendId', (req, res) => {
+//     let vendId = req.params.vendId;
+//     console.log(req.body);
+// Machine.findById(vendId,(err, machine) => {
+//     for(let i in req.body){
+//         machine.products.forEach((x,index,ar)=>{
+//             if(x.ID==i){
+//                 ar[index]['Cur Quantity']=x['Maximum Quantity'];
+//             }
+//         })
+//         machine.save(() => {
+//             console.log('hello');
+
+//         });
+//     }
+
+// });
+// for (var i in request.body) {
+//     Machine.aggregate(
+//         { $match: { ""} },
+//         { $sort: { "createdAt": -1 } },
+//         {
+//             $group: {
+//                 "_id": {
+//                     "last_message_between": {
+//                         $cond: [
+//                             {
+//                                 $gt: [
+//                                     { $substr: ["$senderName", 0, 1] },
+//                                     { $substr: ["$receiverName", 0, 1] }]
+//                             },
+//                             { $concat: ["$senderName", " and ", "$receiverName"] },
+//                             { $concat: ["$receiverName", " and ", "$senderName"] }
+//                         ]
+//                     }
+//                 }, "body": { $first: "$$ROOT" }
+//             }
+//         }, (err, newResult) => {
+
+//         }
+//     )
+// }
+// })
+
+router.post('/remove/:vendId', (req, res) => {
     let vendId = req.params.vendId;
-    console.log(req.body);
-    // Machine.findById(vendId,(err, machine) => {
-    //     for(let i in req.body){
-    //         machine.products.forEach((x,index,ar)=>{
-    //             if(x.ID==i){
-    //                 ar[index]['Cur Quantity']=x['Maximum Quantity'];
-    //             }
-    //         })
-    //         machine.save(() => {
-    //             console.log('hello');
+    Vendor.findById(req.user.id, (err, vendor) => {
 
-    //         });
-    //     }
+        Machine.findByIdAndRemove(vendId, function (err) {
+            var tempMach=vendor.machines;
+            tempMach.forEach((x,i)=>{
+                if(x.vendId==vendId){
+                    tempMach.splice(i,1);
+                }
+            })
+            vendor.machines=tempMach;
+            vendor.save(()=>{
+                if (err) {
+                    req.flash('error', 'Not Able to Remove');
+                    res.redirect('/vendor/dashboard');
+                } else {
+                    req.flash('success', 'Suucessfully removed');
+                    res.redirect('/vendor/dashboard');
+                }
+            }
+            );
+            
+        });
 
-    // });
-    // for (var i in request.body) {
-    //     Machine.aggregate(
-    //         { $match: { ""} },
-    //         { $sort: { "createdAt": -1 } },
-    //         {
-    //             $group: {
-    //                 "_id": {
-    //                     "last_message_between": {
-    //                         $cond: [
-    //                             {
-    //                                 $gt: [
-    //                                     { $substr: ["$senderName", 0, 1] },
-    //                                     { $substr: ["$receiverName", 0, 1] }]
-    //                             },
-    //                             { $concat: ["$senderName", " and ", "$receiverName"] },
-    //                             { $concat: ["$receiverName", " and ", "$senderName"] }
-    //                         ]
-    //                     }
-    //                 }, "body": { $first: "$$ROOT" }
-    //             }
-    //         }, (err, newResult) => {
-                
-    //         }
-    //     )
-    // }
-})
-
-router.post('/remove/:vendId', (req, res)=> {
-    let vendId = req.params.vendId;
-
-    Machine.findByIdAndRemove(vendId, function(err){
-        if(err){
-            req.flash('error', 'Not Able to Remove');
-            res.redirect('/vendor/dashboard');
-        }else{
-            req.flash('success', 'Suucessfully removed');
-            res.redirect('/vendor/dashboard');
-        }
     });
 });
 
