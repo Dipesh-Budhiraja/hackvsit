@@ -45,11 +45,14 @@ const Machine = require('../models/vending');
 
 
 router.post('/getData', (req, res) => {
-    Machine.find({ vendId: req.body.machineId }, (err, machine) => {
+    // console.log(req.headers);
+    // console.log(req.body)
+    
+    Machine.findOne({ vendId: req.headers.machineid }, (err, machine) => {
         if (err) {
             res.status(200).send(err);
         }
-        if (machine.length!=0) {
+        if (machine) {
             // console.log(machine);    
             res.send(machine);
         }
