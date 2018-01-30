@@ -1,4 +1,5 @@
 
+
 const express = require('express');
 const router = express.Router();
 const Machine = require('../models/vending');
@@ -43,14 +44,14 @@ router.get('/getData', function (req, res) {
 })
 
 
-router.post('getActualVending', (req, res) => {
+router.post('/getActualVending', (req, res) => {
     Machine.find({ vendId: req.body.machineId }, (err, machine) => {
         if (err) {
             res.status(200).send(err);
         }
-        if (machine) {
-            console.log(machine)
-            res.send(machine.json());
+        if (machine.length!=0) {
+            // console.log(machine);    
+            res.send(machine);
         }
         else {
             res.send('code not found please scan again')
@@ -63,7 +64,7 @@ router.post('getActualVending', (req, res) => {
 
 router.post('purchaseItems',(req,res)=>{
     vendId=req.body.machineId;
-    
+
 })
 
 
