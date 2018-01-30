@@ -7,49 +7,11 @@ var UserSchema = new mongoose.Schema({
     transactions: [
         {
             tid: String,
-            purchased: [
-                {
-
-                    productId: 'p3',
-                    pname: 'pepsi',
-                    price: 15,
-                    quantity:2,
-                    imgUrl: 'https://images-na.ssl-images-amazon.com/images/I/61kFbWto%2BOL._SY355_.jpg'
-
-                },
-                {
-
-                    productId: 'p2',
-                    pname: 'kurkure',
-                    price: 15,
-                    quantity:,
-                    imgUrl: 'https://images-na.ssl-images-amazon.com/images/I/61kFbWto%2BOL._SY355_.jpg'
-
-                }
-            ]
+            purchased: [Objects]
         },
         {
             tid: String,
-            purchased: [
-                {
-
-                    productId: 'p3',
-                    pname: 'pepsi',
-                    price: 15,
-                    quantity:2,
-                    imgUrl: 'https://images-na.ssl-images-amazon.com/images/I/61kFbWto%2BOL._SY355_.jpg'
-
-                },
-                {
-
-                    productId: 'p2',
-                    pname: 'kurkure',
-                    price: 15,
-                    quantity:1,
-                    imgUrl: 'https://images-na.ssl-images-amazon.com/images/I/61kFbWto%2BOL._SY355_.jpg'
-
-                }
-            ]
+            purchased: [Objects]
         }
     ],
 });

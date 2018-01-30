@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 var Vendor = require('../models/vendor');
-
+var Machine = require('./vending.js')
 
 router.get('/', (req, res) => {
     res.render('landing', {currentUser: req.user});
@@ -18,6 +18,7 @@ router.post('/login', protectRoutesFromLoggedInUser, passport.authenticate('loca
         successRedirect: '/vendor/dashboard',
         failureRedirect: '/vendor/login'
     }), function(req, res){
+
 });
 
 router.get('/register', protectRoutesFromLoggedInUser, (req, res)=> {
@@ -43,6 +44,46 @@ router.post('/register', protectRoutesFromLoggedInUser, function(req, res){
 router.get('/dashboard', isLoggedIn, function(req, res){
     res.render('vendor-home', {currentUser: req.user});
 });
+
+router.get('/get-machines',isLoggedIn,(req,res)=>{
+    Vendor.findById(req.user.id).populate('machines').exec((err,vendor)=>{
+               if(err){
+                   res.status(200).send(err);
+               }
+               if(vendor.machines.length!=0){
+                   res.send(vendor.machines);
+               }
+               else{
+                   res.send('no machines found')
+               }
+    })
+});
+
+router.get('/add-machine',(req,res)=>{
+
+})
+
+router.post('/add-machine',(req,res)=>{
+    Vendor.findById(req.user.id,(err,vendor)=>{
+        if(err){
+            res.status(200).send(err);
+        }
+        else{
+            var mach=new Machine();
+            mach.vendId="vend"+mach.id;
+            mach.locLat=req.body.locLat;
+            mach.locLong = req.body.locLong;
+            mach.products = req.body.products;
+            mach.save();
+            vendor.machines.push(mach);
+            vendor.save();
+            res.send('machine added')
+        }   
+    })
+})
+
+
+
 
 router.get('/logout', isLoggedIn, function(req, res){
     req.logout();
