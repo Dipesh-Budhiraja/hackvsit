@@ -94,8 +94,8 @@
                     type: 'post',
                     success: function (data) {
                         locs = [];
-                        for (var i = 3; i < data.machines.length; ++i) {
-                            locs.push({ coords: { lat: parseInt(data.machines[i].locLat), lng: parseInt(data.machines[i].locLong) } });
+                        for (var i = 0; i < data.machines.length; ++i) {
+                            locs.push({ coords: { lat: parseFloat(data.machines[i].locLat), lng: parseFloat(data.machines[i].locLong) } });
                         }
                         console.log(locs);
                         markers = locs;
