@@ -1,9 +1,9 @@
 <% include ./partials/header %>
-    <div style="padding-left: 200px; margin-top: 50px;">
+    <div style="padding-left: 200px; margin-top: 50px; margin-bottom: 50px;">
         <div class="ui grid">
-                <div class="row centered">
-                        <h1 style="font-family: 'Raleway', sans-serif !important; font-size: 35px; font-weight: 100; letter-spacing: 0.2em;">Dashboard</h1>
-                </div>
+            <div class="row centered">
+                <h1 style="font-family: 'Raleway', sans-serif !important; font-size: 35px; font-weight: 100; letter-spacing: 0.2em;">Dashboard</h1>
+            </div>
         </div>
 
         <div class="ui grid centered">
@@ -11,46 +11,149 @@
                 <h1 style="text-align: center; font-family: 'Raleway', sans-serif !important; font-size: 25px; font-weight: 100; letter-spacing: 0.2em;">Products</h1>
                 <div class="ui styled fluid accordion">
                     <% machines.forEach(function(machine){ %>
-                    <div class=" title">
-                        <i class="dropdown icon"></i>
-                        <img class="ui avatar image" src="/images/elliot.jpg"><%= machine.vendId %>
-                        <span style="float: right;">
-                        <form action="/vendor/edit/<%= machine._id %>" style="display: inline;">
-                            <button class="ui inverted orange button">Edit</button>
-                        </form>
-                        <form action="/vendor/remove/<%= machine._id %>" method="post" style="display: inline;">
-                            <button  class="ui inverted red button">Remove</button>
-                        </form>
-                            <!-- Number of Products: <%= machine.products.length %> -->
-                        </span>
-                    </div>
-                    <div class=" content">
-                        <table class="ui fixed single line celled table">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Current Quantity of Machine</th>
-                                    <th>Maximum Quantity of Machine</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <% machine.products.forEach(function(product){ %>
-                                <tr>
-                                    <td><%= product.Name %></td>
-                                    <td><%= product["Cur Quantity"] %></td>
-                                    <td><%= product["Maximum Quantity"] %></td>
-                                </tr>
-                                <% }) %>
-                            </tbody>
-                        </table>
-                    </div>
-                    <% }) %>
-                    
+                        <div class=" title">
+                            <i class="dropdown icon"></i>
+                            <img class="ui avatar image" src="/images/elliot.jpg">
+                            <%= machine.vendId %>
+                                <span style="float: right;">
+                                    <form action="/vendor/edit/<%= machine._id %>" style="display: inline;">
+                                        <button class="ui inverted orange button">Edit</button>
+                                    </form>
+                                    <form action="/vendor/remove/<%= machine._id %>" method="post" style="display: inline;">
+                                        <button class="ui inverted red button">Remove</button>
+                                    </form>
+                                    <!-- Number of Products: <%= machine.products.length %> -->
+                                </span>
+                        </div>
+                        <div class=" content">
+                            <table class="ui fixed single line celled table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Current Quantity of Machine</th>
+                                        <th>Maximum Quantity of Machine</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% machine.products.forEach(function(product){ %>
+                                        <tr>
+                                            <td>
+                                                <%= product.Name %>
+                                            </td>
+                                            <td>
+                                                <%= product["Cur Quantity"] %>
+                                            </td>
+                                            <td>
+                                                <%= product["Maximum Quantity"] %>
+                                            </td>
+                                        </tr>
+                                        <% }) %>
+                                </tbody>
+                            </table>
+                        </div>
+                        <% }) %>
+
                 </div>
             </div>
 
+            <div class="row">
+                <div class="ten wide column">
+
+                    <input type="hidden" value="<%= vendor._id %>" id="vendor">
+                    <!-- <button id="getLoc">Get Loc</button> -->
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="eleven wide column">
+                    <h1 style="text-align: center; font-family: 'Raleway', sans-serif !important; font-size: 25px; font-weight: 600; letter-spacing: 0.2em;">My Vending Machines</h1>
+                    <div class="ui cards">
+                        <div class="card" style="width: 100%; padding: 5px;">
+
+                            <div id="map"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </div>
 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script>
+
+            var locs = [];
+            var markers = [];
+
+            //insert map here
+            function initMap() {
+                var vendor = $("#vendor").val();
+                console.log(vendor);
+                $.ajax({
+                    url: '/vendor/machine-loc',
+                    data: { vendor: vendor },
+                    type: 'post',
+                    success: function (data) {
+                        locs = [];
+                        for (var i = 3; i < data.machines.length; ++i) {
+                            locs.push({ coords: { lat: parseInt(data.machines[i].locLat), lng: parseInt(data.machines[i].locLong) } });
+                        }
+                        console.log(locs);
+                        markers = locs;
+
+                        //map options
+                        var options = {
+                            zoom: 8,
+                            center: { lat: 28.7041, lng: 77.1025 }
+                        }
+
+                        //new app
+                        var map = new google.maps.Map(document.getElementById('map'), options);
+
+                        //loop through markers
+                        for (var i = 0; i < markers.length; ++i) {
+                            addMarker(markers[i]);
+                        }
+
+                        // listen for click on map
+                        google.maps.event.addListener(map, 'click', function (event) {
+                            //add marker
+                            addMarker({ coords: event.latLng });
+                        });
+
+                        //add marker function
+                        function addMarker(props) {
+                            var marker = new google.maps.Marker({
+                                position: props.coords,
+                                map: map,
+                                // icon: props.iconImage
+                            });
+
+                            //check for customicon
+                            if (props.iconImage) {
+                                //set icon image
+                                marker.setIcon(props.iconImage);
+                            }
+
+                            if (props.content) {
+                                var infoWindow = new google.maps.InfoWindow({
+                                    content: props.content
+                                });
+
+                                marker.addListener('click', function () {
+                                    infoWindow.open(map, marker);
+                                });
+                            }
+                        }
+
+
+                    }
+                });
+
+            }
+
+        </script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAKBq81VTTCSIbFdOP-6_5iz7mKaW4pqF8&callback=initMap" async
+            defer></script>
     </div>
+
     <% include ./partials/footer %>

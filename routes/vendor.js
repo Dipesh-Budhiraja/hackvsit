@@ -18,7 +18,7 @@ router.post('/login', protectRoutesFromLoggedInUser, passport.authenticate('loca
         successRedirect: '/vendor/dashboard',
         failureRedirect: '/vendor/login'
     }), function (req, res) {
-        
+
     });
 
 router.get('/register', protectRoutesFromLoggedInUser, (req, res) => {
@@ -41,13 +41,22 @@ router.post('/register', protectRoutesFromLoggedInUser, function (req, res) {
     });
 });
 
+router.post('/machine-loc', function (req, res) {
+    // console.log(req.body);
+    var vendor = req.body.vendor;
+    Vendor.findById(vendor).populate('machines').exec((err, vendor) => {
+
+        res.send(vendor);
+    })
+});
+
 router.get('/dashboard', isLoggedIn, function (req, res) {
     Vendor.findById(req.user.id).populate('machines').exec((err, vendor) => {
         if (err) {
             res.status(200).send(err);
         }
         if (vendor.machines.length != 0) {
-            res.render('vendor-home', { currentUser: req.user, machines: vendor.machines });
+            res.render('vendor-home', { currentUser: req.user, machines: vendor.machines, vendor: vendor });
         }
         else {
             res.send('no machines found')
@@ -56,7 +65,7 @@ router.get('/dashboard', isLoggedIn, function (req, res) {
 });
 
 router.get('/add-machine', isLoggedIn, (req, res) => {
-    res.render('add-machine', {currentUser: req.user});
+    res.render('add-machine', { currentUser: req.user });
 })
 
 router.post('/add-machine', isLoggedIn, (req, res) => {
@@ -74,7 +83,7 @@ router.post('/add-machine', isLoggedIn, (req, res) => {
             vendor.machines.push(mach);
             mach.save(function () {
                 console.log(vendor);
-                
+
                 vendor.save(function () {
                     res.send('machine added')
                 });
@@ -143,14 +152,14 @@ router.post('/remove/:vendId', (req, res) => {
     Vendor.findById(req.user.id, (err, vendor) => {
 
         Machine.findByIdAndRemove(vendId, function (err) {
-            var tempMach=vendor.machines;
-            tempMach.forEach((x,i)=>{
-                if(x.vendId==vendId){
-                    tempMach.splice(i,1);
+            var tempMach = vendor.machines;
+            tempMach.forEach((x, i) => {
+                if (x.vendId == vendId) {
+                    tempMach.splice(i, 1);
                 }
             })
-            vendor.machines=tempMach;
-            vendor.save(()=>{
+            vendor.machines = tempMach;
+            vendor.save(() => {
                 if (err) {
                     req.flash('error', 'Not Able to Remove');
                     res.redirect('/vendor/dashboard');
@@ -160,7 +169,7 @@ router.post('/remove/:vendId', (req, res) => {
                 }
             }
             );
-            
+
         });
 
     });
