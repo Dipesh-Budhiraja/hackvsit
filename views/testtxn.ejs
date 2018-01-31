@@ -4,6 +4,8 @@
 <head>
 	<title>Merchant Check Out Page</title>
 	<meta name="GENERATOR" content="Evrsoft First Page">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css">
+	<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
 </head>
 
 <body>
@@ -16,101 +18,129 @@
 			});
 		});
 	</script>
-	<h1>Merchant Check Out Page</h1>
+	<h1 style="text-align: center; margin-top: 50px;">Merchant Check Out Page</h1>
 	<pre>
 	</pre>
-	<form id="form1" method="post" action="#">
-		<table border="1">
-			<tbody>
-				<tr>
-					<th>S.No</th>
-					<th>Label</th>
-					<th>Value</th>
-				</tr>
-				<tr>
-					<td>1</td>
-					<td>
-						<label>ORDER_ID::*</label>
-					</td>
-					<td>
-						<input id="ORDER_ID" tabindex="1" maxlength="20" size="20" name="ORDER_ID" autocomplete="off" value='<%= orderId %>'
-						 >
-					</td>
-				</tr>
-				<tr>
-					<td>2</td>
-					<td>
-						<label>CUSTID ::*</label>
-					</td>
-					<td>
-						<input  id="CUST_ID" tabindex="2" maxlength="12" size="12" name="CUST_ID" autocomplete="off" value="CUST001">
-					</td>
-				</tr>
-				<tr>
-					<td>3</td>
-					<td>
-						<label>INDUSTRY_TYPE_ID ::*</label>
-					</td>
-					<td>
-						<input  id="INDUSTRY_TYPE_ID" tabindex="4" maxlength="12" size="12" name="INDUSTRY_TYPE_ID" autocomplete="off" value='<%= config.INDUSTRY_TYPE_ID %>'>
-					</td>
-				</tr>
-				<tr>
-					<td>4</td>
-					<td>
-						<label>Channel ::*</label>
-					</td>
-					<td>
-						<input  id="CHANNEL_ID" tabindex="4" maxlength="12" size="12" name="CHANNEL_ID" autocomplete="off" value='<%= config.CHANNEL_ID %>'>
-					</td>
-				</tr>
-				<tr>
-					<td>5</td>
-					<td>
-						<label>txnAmount*</label>
-					</td>
-					<td>
-						<input   title="TXN_AMOUNT" tabindex="10" type="text" name="TXN_AMOUNT" value='<%= price %>'>
-					</td>
-				</tr>
-				<tr>
-					<td>6</td>
-					<td>
-						<label>MID</label>
-					</td>
-					<td>
-						<input  title="MID" tabindex="10" type="text" name="MID" value='<%= config.MID %>'>
-					</td>
-				</tr>
-				<tr>
-					<td>7</td>
-					<td>
-						<label>WEBSITE</label>
-					</td>
-					<td>
-						<input  title="WEBSITE" tabindex="10" type="text" name="WEBSITE" value='<%= config.WEBSITE %>'>
-					</td>
-				</tr>
-				<tr>
-					<td>8</td>
-					<td>
-						<label>PAYTM_MERCHANT_KEY</label>
-					</td>
-					<td>
-						<input  title="WEBSITE" tabindex="10" type="text" name="PAYTM_MERCHANT_KEY" value='<%= config.PAYTM_MERCHANT_KEY %>'>
-					</td>
-				</tr>
-				<tr>
-					<td></td>
-					<td></td>
-					<td>
-						<input value="CheckOut" type="submit" id="user-submit">
-					</td>
-				</tr>
-			</tbody>
-		</table>
-		* - Mandatory Fields
-	</form>
+	<div class="ui grid centered">
+		<div class="row">
+			<div class="fourteen wide column">
+					<form class="ui form" id="form1" method="post" action="#">
+							<table border="1" class="ui celled striped table">
+								<tbody>
+									<tr>
+										<th>S.No</th>
+										<th>Label</th>
+										<th>Value</th>
+									</tr>
+									<tr>
+										<td>1</td>
+										<td>
+											<label>ORDER_ID::*</label>
+										</td>
+										<td>
+											<div class="field">
+											<input id="ORDER_ID" tabindex="1" maxlength="20" size="20" name="ORDER_ID" autocomplete="off" value='<%= orderId %>'
+											 >
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td>2</td>
+										<td>
+											<label>CUSTID ::*</label>
+										</td>
+										<td>
+											<div class="field">
+											<input  id="CUST_ID" tabindex="2" maxlength="12" size="12" name="CUST_ID" autocomplete="off" value="CUST001">
+										</div>
+										</td>
+									</tr>
+									<tr>
+										<td>3</td>
+										<td>
+											<label>INDUSTRY_TYPE_ID ::*</label>
+										</td>
+										<td>
+											<div class="field">
+											<input  id="INDUSTRY_TYPE_ID" tabindex="4" maxlength="12" size="12" name="INDUSTRY_TYPE_ID" autocomplete="off" value='<%= config.INDUSTRY_TYPE_ID %>'>
+												
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td>4</td>
+										<td>
+											<label>Channel ::*</label>
+										</td>
+										<td>
+											<div class="field">
+											<input  id="CHANNEL_ID" tabindex="4" maxlength="12" size="12" name="CHANNEL_ID" autocomplete="off" value='<%= config.CHANNEL_ID %>'>
+										</div>
+										</td>
+									</tr>
+									<tr>
+										<td>5</td>
+										<td>
+											<label>txnAmount*</label>
+										</td>
+										<td>
+											<div class="field">
+											<input   title="TXN_AMOUNT" tabindex="10" type="text" name="TXN_AMOUNT" value='<%= price %>'>
+										</div>
+										</td>
+									</tr>
+									<tr>
+										<td>6</td>
+										<td>
+											<label>MID</label>
+										</td>
+										<td>
+											<div class="field">
+											<input  title="MID" tabindex="10" type="text" name="MID" value='<%= config.MID %>'>
+										</div>
+										</td>
+									</tr>
+									<tr>
+										<td>7</td>
+										<td>
+											<label>WEBSITE</label>
+										</td>
+										<td>
+											<div class="field">
+											<input  title="WEBSITE" tabindex="10" type="text" name="WEBSITE" value='<%= config.WEBSITE %>'>
+										</div>
+										</td>
+									</tr>
+									<tr>
+										<td>8</td>
+										<td>
+											<label>PAYTM_MERCHANT_KEY</label>
+										</td>
+										<td>
+											<div class="field">
+											<input  title="WEBSITE" tabindex="10" type="text" name="PAYTM_MERCHANT_KEY" value='<%= config.PAYTM_MERCHANT_KEY %>'>
+										</div>
+										</td>
+									</tr>
+									<tr>
+										<td></td>
+										<td></td>
+										<td>
+											
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<div class="field">
+									<input class="ui button" value="CheckOut" type="submit" id="user-submit">
+								</div>
+								<span style="float: right;">* - Mandatory Fields</span>
+							
+						</form>
+			</div>
+		</div>
+	</div>
+	
 </body>
 
 </html>
