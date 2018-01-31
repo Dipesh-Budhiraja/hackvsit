@@ -5,9 +5,9 @@ const router = express.Router();
 
 
 router.get('/', function (req, res) {
-  console.log("in restaurant");
-  console.log("--------testtxnjs----");
-  res.render('testtxn.ejs', { 'config': config });
+  // console.log("in restaurant");
+  // console.log("--------testtxnjs----");
+  res.render('testtxn.ejs', { 'config': config ,"orderId":req.query.time,"price":req.query.price});
 });
 
 
@@ -24,7 +24,7 @@ router.post('/', function (req, res) {
     }
   }
   console.log(paramarray);
-  paramarray['CALLBACK_URL'] = 'http://localhost:3000/response';  // in case if you want to send callback
+  paramarray['CALLBACK_URL'] = 'http://192.168.136.210:3000/response';  // in case if you want to send callback
   console.log(PAYTM_MERCHANT_KEY);
   checksum.genchecksum(paramarray, PAYTM_MERCHANT_KEY, function (err, result) {
     console.log(result);
